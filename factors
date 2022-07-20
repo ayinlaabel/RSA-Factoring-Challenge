@@ -1,25 +1,32 @@
 #!/usr/bin/python3
-""" My module for testing numbers and finding the factorization """
+import sys
 import math
-from sys import argv
 
 
-def factor(number, test_num):
-    """ Finds the values to return once a number has been found
-    """
+def reading(file):
+    # total = 0
+    with open(file) as data:
+        new_data = data.readlines()
+        # print(new_data)
+    return new_data
 
 
-    print("{}={}*{}".format(number, (number // test_num), test_num))
-
-
-with open(argv[1], mode="r", encoding="UTF-8") as f:
-    for line in f:
-        number = int(line)
-        if number % 2 == 0:
-            factor(number, 2)
-        else:
-            max_number_to_test = math.floor(math.sqrt(number))
-            for test_num in range(3, max_number_to_test + 1, 2):
-                if number % test_num == 0:
-                    factor(number, test_num)
+for file_index in range(len(sys.argv)):
+    if file_index != 0:
+        data = reading(sys.argv[file_index])
+        for item in data:
+            number = int(item)
+            # print(number)
+            print("{:d}=".format(number), end="")
+            if number % 2 == 0:
+                print("{}*2".format(number//2))
+                continue
+            sqn = int(math.sqrt(number))
+            if sqn % 2 == 0:
+                sqn += 1
+            for i in range(3, sqn + 1, 2):
+                if number % i == 0:
+                    print("{}*{}".format(i, number//i))
                     break
+            if number % i != 0:
+                print("{}*1".format(number))
